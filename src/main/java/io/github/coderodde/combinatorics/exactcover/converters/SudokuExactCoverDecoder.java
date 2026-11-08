@@ -8,11 +8,11 @@ import java.util.Objects;
  * This class provides the method for decoding a sudoku state from an exact
  * cover instance.
  */
-public final class ExactCoverSolutionToSudokuConverter 
-    implements FromExactCoverSolutionConverter<Sudoku> {
+public final class SudokuExactCoverDecoder 
+              implements ExactCoverDecoder<Sudoku> {
     
     @Override
-    public Sudoku convert(ExactCoverSolution solution) { // <-- the parameter must be a ExactCoverSolution
+    public Sudoku decode(ExactCoverSolution solution) { // <-- the parameter must be a ExactCoverSolution
         Objects.requireNonNull(solution, "The input solution is null.");
   
         int cellCount         = DIMENSION * DIMENSION;

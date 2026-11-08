@@ -6,9 +6,9 @@ import io.github.coderodde.combinatorics.exactcover.ExactCoverSolution;
  * This interface defines the API for converting exact cover instances to 
  * states.
  * 
- * @param <S> the state type to convert to.
+ * @param <S> the state type to decode to.
  */
-public interface FromExactCoverSolutionConverter<S> {
+public interface ExactCoverDecoder<S> {
     
     /**
      * Converts the exact cover instance to a state.
@@ -17,5 +17,5 @@ public interface FromExactCoverSolutionConverter<S> {
      * 
      * @return the state converted from the exact cover instance.
      */
-    public S convert(ExactCoverSolution solution);
+    public S decode(ExactCoverSolution solution);
 }

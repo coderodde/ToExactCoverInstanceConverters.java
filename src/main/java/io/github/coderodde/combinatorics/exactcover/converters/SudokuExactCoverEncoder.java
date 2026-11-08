@@ -11,8 +11,8 @@ import static io.github.coderodde.combinatorics.exactcover.converters.Sudoku.UNU
  * This class provides a method for converting sudoku states to exact cover 
  * instances.
  */
-public final class SudokuToExactCoverInstanceConverter 
-              implements ToExactCoverInstanceConverter<Sudoku> {
+public final class SudokuExactCoverEncoder 
+              implements ExactCoverEncoder<Sudoku> {
 
     private static final int COLUMNS = 324;
     private static final int ROWS    = 729;
@@ -25,7 +25,7 @@ public final class SudokuToExactCoverInstanceConverter
      * @return an exact cover instance.
      */
     @Override
-    public ExactCoverInstance convert(Sudoku state) {
+    public ExactCoverInstance encode(Sudoku state) {
         ExactCoverInstance instance = new ExactCoverInstance(COLUMNS, ROWS);
         
         for (int r = 0; r < DIMENSION; ++r) {
