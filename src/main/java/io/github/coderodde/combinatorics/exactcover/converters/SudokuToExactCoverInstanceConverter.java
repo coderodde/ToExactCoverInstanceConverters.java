@@ -1,6 +1,11 @@
 package io.github.coderodde.combinatorics.exactcover.converters;
 
 import io.github.coderodde.combinatorics.exactcover.ExactCoverInstance;
+import static io.github.coderodde.combinatorics.exactcover.converters.Sudoku.BOX_DIMENSION;
+import static io.github.coderodde.combinatorics.exactcover.converters.Sudoku.DIMENSION;
+import static io.github.coderodde.combinatorics.exactcover.converters.Sudoku.MAXIMUM_NUMBER;
+import static io.github.coderodde.combinatorics.exactcover.converters.Sudoku.MINIMUM_NUMBER;
+import static io.github.coderodde.combinatorics.exactcover.converters.Sudoku.UNUSED_NUMBER;
 
 /**
  * This class provides a method for converting sudoku states to exact cover 
@@ -23,35 +28,31 @@ public final class SudokuToExactCoverInstanceConverter
     public ExactCoverInstance convert(Sudoku state) {
         ExactCoverInstance instance = new ExactCoverInstance(COLUMNS, ROWS);
         
-        final int dimension    = Sudoku.dimension();
-        final int boxDimension = Sudoku.boxDimension();
-        final int minNumber    = Sudoku.minimumNumber();
-        final int maxNumber    = Sudoku.maximumNumber();
-        final int unusedNumber = Sudoku.unusedNumber();
-        
-        for (int r = 0; r < dimension; ++r) {
-            for (int c = 0; c < dimension; ++c) {
+        for (int r = 0; r < DIMENSION; ++r) {
+            for (int c = 0; c < DIMENSION; ++c) {
                 int clue = state.get(c, r);
-                int box  = boxDimension * (r / boxDimension) + c / boxDimension;
+                int box  = BOX_DIMENSION 
+                         * (r / BOX_DIMENSION) 
+                         + c / BOX_DIMENSION;
                 
-                for (int d = minNumber; d <= maxNumber; ++d) {
-                    if (clue != unusedNumber && clue != d) {
+                for (int d = MINIMUM_NUMBER; d <= MAXIMUM_NUMBER; ++d) {
+                    if (clue != UNUSED_NUMBER && clue != d) {
                         continue;
                     }
                     
                     int digitIndex   = d - 1;
-                    int candidateRow = (dimension * r + c) 
-                                     * dimension
+                    int candidateRow = (DIMENSION * r + c) 
+                                     * DIMENSION
                                      + digitIndex;
                     
-                    int x1 = dimension * dimension;
+                    int x1 = DIMENSION * DIMENSION;
                     int x2 = 2 * x1;
                     int x3 = 3 * x1;
                     
-                    instance.set(     dimension * r + c,          candidateRow);
-                    instance.set(x1 + dimension * r + digitIndex, candidateRow);
-                    instance.set(x2 + dimension * c + digitIndex, candidateRow);
-                    instance.set(x3 + dimension * box + digitIndex, 
+                    instance.set(     DIMENSION * r + c,          candidateRow);
+                    instance.set(x1 + DIMENSION * r + digitIndex, candidateRow);
+                    instance.set(x2 + DIMENSION * c + digitIndex, candidateRow);
+                    instance.set(x3 + DIMENSION * box + digitIndex, 
                                  candidateRow);
                 }
             }

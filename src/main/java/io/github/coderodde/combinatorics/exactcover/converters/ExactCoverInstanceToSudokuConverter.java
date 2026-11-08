@@ -1,6 +1,10 @@
 package io.github.coderodde.combinatorics.exactcover.converters;
 
 import io.github.coderodde.combinatorics.exactcover.ExactCoverInstance;
+import static io.github.coderodde.combinatorics.exactcover.converters.Sudoku.DIMENSION;
+import static io.github.coderodde.combinatorics.exactcover.converters.Sudoku.MAXIMUM_NUMBER;
+import static io.github.coderodde.combinatorics.exactcover.converters.Sudoku.MINIMUM_NUMBER;
+import static io.github.coderodde.combinatorics.exactcover.converters.Sudoku.UNUSED_NUMBER;
 
 /**
  * This class provides the method for decoding a sudoku state from an exact
@@ -25,22 +29,17 @@ public final class ExactCoverInstanceToSudokuConverter
             );
         }
         
-        final int dimension = Sudoku.dimension();
-        final int unused    = Sudoku.unusedNumber();
-        final int minNumber = Sudoku.minimumNumber();
-        final int maxNumber = Sudoku.maximumNumber();
+        final int[][] grid = new int[DIMENSION]
+                                    [DIMENSION];
         
-        final int[][] grid = new int[dimension]
-                                    [dimension];
-        
-        for (int r = 0; r < dimension; ++r) {
-            for (int c = 0; c < dimension; ++c) {
-                int cell           = dimension * r + c;
+        for (int r = 0; r < DIMENSION; ++r) {
+            for (int c = 0; c < DIMENSION; ++c) {
+                int cell           = DIMENSION * r + c;
                 int candidateCount = 0;
-                int clue           = unused;
+                int clue           = UNUSED_NUMBER;
                 
-                for (int d = minNumber; d <= maxNumber; ++d) {
-                    int candidateRow = cell * dimension + d - 1;
+                for (int d = MINIMUM_NUMBER; d <= MAXIMUM_NUMBER; ++d) {
+                    int candidateRow = cell * DIMENSION + d - 1;
                     
                     if (instance.get(cell, candidateRow)) {
                         ++candidateCount;
@@ -48,15 +47,20 @@ public final class ExactCoverInstanceToSudokuConverter
                     }
                 }
                 
-                if (candidateCount == 1) {
-                    grid[r][c] = clue;
-                } else if (candidateCount == dimension) {
-                    grid[r][c] = unused;
-                } else {
-                    throw new IllegalArgumentException(
-                        ("Cell (x = %d, y = %d) has %d candidates, " + 
-                         "expected 1 or %d.")
-                                .formatted(c, r, candidateCount, dimension));
+                switch (candidateCount) {
+                    case 1:
+                        grid[r][c] = clue;
+                        break;
+                        
+                    case DIMENSION:
+                        grid[r][c] = UNUSED_NUMBER;
+                        break;
+                        
+                    default:
+                        throw new IllegalArgumentException(
+                                ("Cell (x = %d, y = %d) has %d candidates, " +
+                                "expected 1 or %d.")
+                                .formatted(c, r, candidateCount, DIMENSION));
                 }
             }
         }

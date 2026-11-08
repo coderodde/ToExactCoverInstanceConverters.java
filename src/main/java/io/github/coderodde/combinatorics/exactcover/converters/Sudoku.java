@@ -8,11 +8,11 @@ import java.util.Objects;
  */
 public final class Sudoku {
     
-    private static final int DIMENSION      = 9;
-    private static final int BOX_DIMENSION  = 3;
-    private static final int MINIMUM_NUMBER = 1;
-    private static final int MAXIMUM_NUMBER = 9;
-    private static final int UNUSED_NUMBER  = 0;
+    public static final int DIMENSION      = 9;
+    public static final int BOX_DIMENSION  = 3;
+    public static final int MINIMUM_NUMBER = 1;
+    public static final int MAXIMUM_NUMBER = 9;
+    public static final int UNUSED_NUMBER  = 0;
     
     private final int[][] matrix;
     
@@ -56,24 +56,12 @@ public final class Sudoku {
         matrix[checkY(y)][checkX(x)] = checkNumber(number);
     }
     
-    public static int dimension() {
-        return DIMENSION;
-    }
-    
-    public static int boxDimension() {
-        return BOX_DIMENSION;
-    }
-    
-    public static int minimumNumber() {
-        return MINIMUM_NUMBER;
-    }
-    
-    public static int maximumNumber() {
-        return MAXIMUM_NUMBER;
-    }
-    
-    public static int unusedNumber() {
-        return UNUSED_NUMBER;
+    public void clear() {
+        for (int y = 0; y < matrix.length; ++y) {
+            for (int x = 0; x < matrix.length; ++x) {
+                matrix[y][x] = UNUSED_NUMBER;
+            }
+        }
     }
     
     @Override
