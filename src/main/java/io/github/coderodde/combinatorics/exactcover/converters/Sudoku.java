@@ -20,6 +20,10 @@ public final class Sudoku {
         this.matrix = new int[DIMENSION][DIMENSION];
     }
     
+    public Sudoku(Sudoku other) {
+        this(other.matrix);
+    }
+    
     public Sudoku(int[][] grid) {
         this();
         
